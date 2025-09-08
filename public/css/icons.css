@@ -1,0 +1,54 @@
+/* Simple icon replacements using Unicode symbols and CSS */
+.fas, .far, .fab {
+    font-style: normal;
+    font-weight: normal;
+    display: inline-block;
+    text-rendering: auto;
+}
+
+/* Font Awesome icon replacements */
+.fa-umbrella-beach:before { content: '🏖️'; }
+.fa-parachute-box:before { content: '🪂'; }
+.fa-city:before { content: '🏙️'; }
+.fa-mountain:before { content: '⛰️'; }
+.fa-tree:before { content: '🌳'; }
+.fa-camera:before { content: '📷'; }
+.fa-search:before { content: '🔍'; }
+.fa-water:before { content: '💧'; }
+.fa-temple:before { content: '🏛️'; }
+.fa-mountain-sun:before { content: '🏔️'; }
+.fa-hiking:before { content: '🥾'; }
+.fa-route:before { content: '🗺️'; }
+.fa-gopuram:before { content: '🕌'; }
+.fa-user:before { content: '👤'; }
+.fa-phone:before { content: '📞'; }
+.fa-envelope:before { content: '✉️'; }
+.fa-map-marker-alt:before { content: '📍'; }
+.fa-check:before { content: '✅'; }
+.fa-pagelines:before { content: '🌿'; }
+
+/* Star rating */
+.fa-star:before { content: '⭐'; }
+.far.fa-star:before { content: '☆'; }
+
+/* Social media icons */
+.fa-facebook:before { content: '📘'; }
+.fa-instagram:before { content: '📷'; }
+.fa-twitter:before { content: '🐦'; }
+.fa-youtube:before { content: '📹'; }
+
+/* Responsive icon sizing */
+.category-icon .fas,
+.category-icon .far {
+    font-size: 2rem;
+}
+
+.guide-avatar .fas,
+.guide-avatar .far {
+    font-size: 2.5rem;
+}
+
+.placeholder-image .fas,
+.placeholder-image .far {
+    font-size: 3rem;
+}

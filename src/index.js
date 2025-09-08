@@ -1,7 +1,7 @@
 // Importar as bibliotecas necessárias
 import express from "express";
 import dotenv from "dotenv";
-import prisma from "./db.js"; // Importar nossa conexão com o banco
+// import prisma from "./db.js"; // Importar nossa conexão com o banco
 
 // Carregar variáveis de ambiente do arquivo .env
 dotenv.config();
@@ -12,10 +12,14 @@ const app = express();
 // Middleware para processar JSON nas requisições
 app.use(express.json());
 
+// Servir arquivos estáticos da pasta public
+app.use(express.static('public'));
+
 //Healthcheck
 app.get("/", (_req, res) => res.json({ ok: true, service: "API 3º Bimestre" }));
 
 //CREATE: POST /usuarios
+/*
 app.post("/usuarios", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -44,6 +48,7 @@ app.get("/usuarios", async (_req, res) => {
     res.status(500).json({ error: "Erro ao listar usuários" });
   }
 });
+*/
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
