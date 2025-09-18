@@ -3,7 +3,7 @@
 Este backend implementa:
 - 1-1: `User` → `Store`
 - 1-N: `Store` → `Product`
-- CRUD completo de `Store` e `Product`
+- CRUD completo de `User`, `Store` e `Product`
 - Consultas com `include` conforme guia da AV2
 
 A pasta `public/` do seu repositório não é alterada.
@@ -53,6 +53,13 @@ API em: `http://localhost:3000`
 ## Rotas
 
 - Health: `GET /health`
+
+### Users
+- Criar: `POST /users`  body: `{ "email": "ana@ex.com", "name": "Ana" }`
+- Listar: `GET /users`
+- Detalhar: `GET /users/:id` (inclui `store` e `products` dela)
+- Atualizar: `PUT /users/:id`  body: `{ "email": "novo@ex.com", "name": "Novo Nome" }`
+- Remover: `DELETE /users/:id` (cascade via relações)
 
 ### Stores
 - Criar: `POST /stores`

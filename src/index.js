@@ -35,6 +35,89 @@ app.get("/health", (_req, res) => {
 });
 
 /**
+ * USERS (dono da loja)
+ */
+
+// POST /users  body: { email, name? }
+app.post("/users", async (req, res) => {
+  try {
+    const { email, name } = req.body || {};
+    if (!email || typeof email !== "string") {
+      return res.status(400).json({ error: "Campo obrigatório: email (string)." });
+    }
+    const user = await prisma.user.create({ data: { email, name } });
+    res.status(201).json(user);
+  } catch (e) {
+    if (e?.code === "P2002") {
+      return res.status(409).json({ error: "E-mail já cadastrado." });
+    }
+    return res.status(400).json({ error: e?.message || "Erro ao criar usuário." });
+  }
+});
+
+// GET /users -> inclui a store (se existir)
+app.get("/users", async (_req, res) => {
+  try {
+    const users = await prisma.user.findMany({
+      orderBy: { id: "asc" },
+      include: { store: true },
+    });
+    res.json(users);
+  } catch (e) {
+    res.status(500).json({ error: "Erro ao listar usuários." });
+  }
+});
+
+// GET /users/:id
+app.get("/users/:id", async (req, res) => {
+  try {
+    const id = parseId(req.params.id);
+    if (!id) return res.status(400).json({ error: "Parâmetro id inválido." });
+    const user = await prisma.user.findUnique({
+      where: { id },
+      include: { store: { include: { products: true } } },
+    });
+    if (!user) return res.status(404).json({ error: "Usuário não encontrado." });
+    res.json(user);
+  } catch (e) {
+    res.status(500).json({ error: "Erro ao buscar usuário." });
+  }
+});
+
+// PUT /users/:id  body: { email?, name? }
+app.put("/users/:id", async (req, res) => {
+  try {
+    const id = parseId(req.params.id);
+    if (!id) return res.status(400).json({ error: "Parâmetro id inválido." });
+
+    const data = {};
+    if (typeof req.body.email === "string" && req.body.email.trim()) data.email = req.body.email.trim();
+    if (typeof req.body.name === "string") data.name = req.body.name;
+    if (!Object.keys(data).length) return res.status(400).json({ error: "Informe ao menos um campo (email, name)." });
+
+    const user = await prisma.user.update({ where: { id }, data });
+    res.json(user);
+  } catch (e) {
+    if (e?.code === "P2002") return res.status(409).json({ error: "E-mail já cadastrado." });
+    if (e?.code === "P2025") return res.status(404).json({ error: "Usuário não encontrado." });
+    res.status(400).json({ error: e?.message || "Erro ao atualizar usuário." });
+  }
+});
+
+// DELETE /users/:id  -> cascade: remove store e products vinculados
+app.delete("/users/:id", async (req, res) => {
+  try {
+    const id = parseId(req.params.id);
+    if (!id) return res.status(400).json({ error: "Parâmetro id inválido." });
+    await prisma.user.delete({ where: { id } });
+    res.status(204).send();
+  } catch (e) {
+    if (e?.code === "P2025") return res.status(404).json({ error: "Usuário não encontrado." });
+    res.status(400).json({ error: e?.message || "Erro ao excluir usuário." });
+  }
+});
+
+/**
  * STORES (1-1 com USER)
  */
 
