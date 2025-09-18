@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,28 +8,30 @@ datasource db {
 }
 
 model User {
-id Int @id @default(autoincrement())
-email String @unique
-name String?
-store Store? // 1-1: um usuário tem uma loja
-createdAt DateTime @default(now())
-updatedAt DateTime @updatedAt
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  name      String?
+  store     Store?  // 1-1: um usuário tem uma loja
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
+
 model Store {
-id Int @id @default(autoincrement())
-name String
-userId Int @unique
-user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-products Product[] // 1-N: uma loja tem vários produtos
-createdAt DateTime @default(now())
-updatedAt DateTime @updatedAt
+  id        Int       @id @default(autoincrement())
+  name      String
+  userId    Int       @unique
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  products  Product[] // 1-N: uma loja tem vários produtos
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
+
 model Product {
-id Int @id @default(autoincrement())
-name String
-price Decimal @db.Decimal(10,2)
-storeId Int
-store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
-createdAt DateTime @default(now())
-updatedAt
+  id        Int      @id @default(autoincrement())
+  name      String
+  price     Decimal  @db.Decimal(10, 2)
+  storeId   Int
+  store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -1,5 +1,16 @@
+# Node
 node_modules/
-.env
-/generated/prisma
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+dist/
+coverage/
 
-/src/generated/prisma
+# Env
+.env
+.env.local
+.env.*.local
+
+# Prisma
+prisma/*.db
