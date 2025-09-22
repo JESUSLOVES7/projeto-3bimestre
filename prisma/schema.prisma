@@ -10,6 +10,7 @@ datasource db {
 model User {
   id        Int     @id @default(autoincrement())
   email     String  @unique
+  password     String  @unique
   name      String?
   store     Store?  // 1-1: um usuário tem uma loja
   createdAt DateTime @default(now())
