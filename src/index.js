@@ -160,6 +160,20 @@ app.get("/stores/:id", async (req, res) => {
   }
 });
 
+// GET /stores -> lista todas as lojas
+app.get("/stores", async (_req, res) => {
+  try {
+    const stores = await prisma.store.findMany({
+      include: { user: true, products: true },
+      orderBy: { id: "asc" }
+    });
+    res.json(stores);
+  } catch (e) {
+    res.status(500).json({ error: "Erro ao listar lojas." });
+  }
+});
+
+
 // PUT /stores/:id  body: { name? }
 app.put("/stores/:id", async (req, res) => {
   try {
